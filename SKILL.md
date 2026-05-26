@@ -57,35 +57,55 @@ Based on the diagnosis, rebuild the prompt. Follow these rules:
    - Never write pre-fabricated table schemas, fixed section orders, or rigid word counts unless the user explicitly demands them.
    - Use phrases like "自行组织"、"怎么讲清楚就怎么讲"、"根据内容决定" instead of "按以下格式输出".
    - The optimized prompt should feel like talking to a smart colleague, not filling out a bureaucratic form.
+   - Never prescribe the model's thinking process (e.g., "先通读全文，再逐项核实，最后审视"). The model knows how to reason — your job is to define WHAT to evaluate, not HOW to think.
 
-### Phase 3: Present
+### Phase 3: Present — Three-Tier Output
 
-Output in this exact structure:
+Always output 3 versions of the optimized prompt, from minimal to comprehensive. Let the user choose the level that fits their needs.
 
 ```
 ## 诊断
 
-[Concise diagnosis of what was missing — one line per dimension, only deficient ones]
+[Concise diagnosis — one line per dimension, only deficient ones]
 
-## 优化后提示词
+---
 
-[The complete, optimized prompt in a code block, ready to copy-paste]
+### 极简版
+
+[1-3 sentences: role + core task. Ready to copy-paste for quick use.]
+
+### 规范版
+
+[Add context + key constraints on top of the minimal version. For formal work scenarios.]
+
+### 发布级版
+
+[Full dimensional coverage: add reasoning guide, examples (if helpful), adaptive structure hints. For high-stakes tasks or prompts shared with others.]
+
+---
 
 ## 改进说明
 
-[3-5 bullet points summarizing what was changed and why. Be specific: "Added X to address Y problem."]
+[3-5 bullet points: what was changed and why. Be specific.]
 ```
+
+**Version guidelines**:
+- **极简版**: ≤ 3 sentences. Role + task + one essential constraint. If the original prompt is already this simple, acknowledge it and skip to 规范版.
+- **规范版**: ≤ 10 sentences. The recommended default for most use cases. Covers role, context, task, and 3-5 sharp constraints.
+- **发布级版**: ≤ 20 sentences. Add reasoning hints and examples only if they genuinely help — never pad for length. Do NOT prescribe thinking flow or analysis steps; trust the model to reason based on content. Focus on: sharper role definition, broader context, and stronger quality criteria.
+
+Each version should be self-contained and independently usable. Never write "see above" or "add the following to the previous version."
 
 ### Quality Checklist
 
-Before outputting the final result, verify:
+Before outputting, verify all three versions:
 
-- [ ] The optimized prompt can be executed without additional clarification
-- [ ] Every sentence in the prompt serves a purpose (no filler)
+- [ ] Each version can be executed independently without additional clarification
+- [ ] Every sentence serves a purpose (no filler)
 - [ ] The role is specific (domain + seniority + perspective)
 - [ ] Constraints include both format AND quality criteria
-- [ ] Output format is explicit (structure, not just "be clear")
-- [ ] The user's original intent is fully preserved
+- [ ] Restraint is applied: each version is as short as it can be while remaining effective
+- [ ] The user's original intent is fully preserved in all versions
 - [ ] No placeholder text like "[insert here]" or "TBD"
 
 ### Handling Edge Cases
